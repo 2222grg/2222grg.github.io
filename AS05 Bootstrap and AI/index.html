@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>單頁式網頁</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* 頂部 Banner：高度縮小，仍滿版 */
+    .top-banner {
+      width: 100%;
+      height: 25vh;
+      background-color: #17a2b8; /* 與 Bootstrap bg-info 相同，Bootstrap CSS 沒載入時也看得到 */
+    }
+
+    /* 區段 Banner：由 100vh 調整為 50vh，仍滿版 */
+    .section-banner {
+      width: 100%;
+      height: 50vh;
+      background-color: #ff5733;
+      color: #fff;
+    }
+
+    .banner-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+    }
+    .banner-box h1,
+    .banner-box h2 { margin: 0; color: #fff; }
+
+    /* Banner 字級明確指定（內容區字級要比這個小） */
+    .top-banner h1 { font-size: 2.5rem; }
+    .section-banner h2 { font-size: 2rem; }
+
+    /* 導覽列：橫向置中排列，並固定於視窗頂端（即使 Bootstrap CSS 沒載入也成立） */
+    .navbar.sticky-top {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #f8f9fa;
+      padding: 0 1rem;
+      height: 4rem;
+    }
+    .navbar .navbar-brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-right: 1rem;
+      text-decoration: none;
+    }
+    .navbar .navbar-nav {
+      display: flex;
+      flex-direction: row;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar .nav-link {
+      display: block;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+    }
+
+    /* 白色橫條：厚度 = 導覽列(4rem)的 1.5 倍 = 6rem，滿版 */
+    .white-line { width: 100%; height: 6rem; background-color: #fff; }
+
+    /* 內容區：加大留白，卡片置中 */
+    .content-section {
+      background-color: #f0f0f0;
+      padding: 3rem 0 8rem;
+      min-height: 60vh;
+    }
+    .content-card {
+      background-color: #dcdcdc;
+      border-radius: 5px;
+      padding: clamp(1rem, 3vw, 2.5rem);
+      min-height: 320px;
+    }
+    /* 內容區：標題與內文都比 Banner 字再小一點 */
+    .content-card h2 {
+      font-size: 1.5rem;   /* 比 Banner 的 2rem 小 */
+      margin-bottom: 1.25rem;
+    }
+    .content-card p {
+      font-size: 1rem;     /* 內文再小一級 */
+      line-height: 1.8;
+      margin-bottom: 1.25rem;
+    }
+    .content-card p:last-child { margin-bottom: 0; }
+
+    .navbar-light .navbar-brand,
+    .navbar-light .navbar-brand:hover {
+      color: #000;
+    }
+
+    /* 導覽列：區段連結平時淺灰，滑鼠移上去變黑；首頁固定黑色粗體 */
+    .navbar-light .navbar-nav .nav-link { color: rgba(0, 0, 0, 0.5); }
+    .navbar-light .navbar-nav .nav-link:hover,
+    .navbar-light .navbar-nav .nav-link:focus { color: #000; }
+
+    /* 內容區：整片淺灰，卡片偏上 */
+    .content-section .container-fluid { padding: 0; }
+    .content-section .row { display: flex; flex-wrap: wrap; margin: 0; }
+    /* 手機：左右各 1/5，卡片 3/5 */
+    .content-section .side-col { flex: 0 0 20%; max-width: 20%; }
+    .content-section .main-col { flex: 0 0 60%; max-width: 60%; }
+    /* 電腦（768px 以上）：左右各 1/12，卡片 10/12 */
+    @media (min-width: 768px) {
+      .content-section .side-col { flex: 0 0 8.333333%; max-width: 8.333333%; }
+      .content-section .main-col { flex: 0 0 83.333333%; max-width: 83.333333%; }
+    }
+    .content-section .main-col { padding: 0; }
+  </style>
+</head>
+<body>
+  <div class="round">
+  <!-- 頂部 Banner -->
+  <div class="top-banner bg-info banner-box">
+    <h1>這裡是Banner</h1>
+  </div>
+
+  <!-- 導覽列 -->
+  <nav class="navbar navbar-expand navbar-light bg-light sticky-top">
+    <a class="navbar-brand" href="#">首頁</a>
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="#section1">區段1</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section2">區段2</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section3">區段3</a></li>
+    </ul>
+  </nav>
+
+  <!-- 區段1 -->
+  <div class="white-line"></div>
+  <div class="section-banner banner-box" id="section1">
+    <h2>區段1 Banner</h2>
+  </div>
+  <div class="content-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 side-col"></div>
+        <div class="col-md-8 main-col">
+          <div class="content-card">
+            <h2>區段1 內容</h2>
+            <p>這是區段1的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+            <p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+          </div>
+        </div>
+        <div class="col-md-2 side-col"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 區段2 -->
+  <div class="white-line"></div>
+  <div class="section-banner banner-box" id="section2">
+    <h2>區段2 Banner</h2>
+  </div>
+  <div class="content-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 side-col"></div>
+        <div class="col-md-8 main-col">
+          <div class="content-card">
+            <h2>區段2 內容</h2>
+            <p>這是區段2的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+            <p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+          </div>
+        </div>
+        <div class="col-md-2 side-col"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 區段3 -->
+  <div class="white-line"></div>
+  <div class="section-banner banner-box" id="section3">
+    <h2>區段3 Banner</h2>
+  </div>
+  <div class="content-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 side-col"></div>
+        <div class="col-md-8 main-col">
+          <div class="content-card">
+            <h2>區段3 內容</h2>
+            <p>這是區段3的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+            <p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+          </div>
+        </div>
+        <div class="col-md-2 side-col"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="white-line"></div>
+  </div>
+
+  <div class="round">
+  <!-- 頂部 Banner -->
+  <div class="top-banner bg-info banner-box">
+    <h1>這裡是Banner</h1>
+  </div>
+
+  <!-- 導覽列 -->
+  <nav class="navbar navbar-expand navbar-light bg-light sticky-top">
+    <a class="navbar-brand" href="#">首頁</a>
+    <ul class="navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="#section1b">區段1</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section2b">區段2</a></li>
+      <li class="nav-item"><a class="nav-link" href="#section3b">區段3</a></li>
+    </ul>
+  </nav>
+
+  <!-- 區段1 -->
+  <div class="white-line"></div>
+  <div class="section-banner banner-box" id="section1b">
+    <h2>區段1 Banner</h2>
+  </div>
+  <div class="content-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 side-col"></div>
+        <div class="col-md-8 main-col">
+          <div class="content-card">
+            <h2>區段1 內容</h2>
+            <p>這是區段1的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+            <p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+          </div>
+        </div>
+        <div class="col-md-2 side-col"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 區段2 -->
+  <div class="white-line"></div>
+  <div class="section-banner banner-box" id="section2b">
+    <h2>區段2 Banner</h2>
+  </div>
+  <div class="content-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 side-col"></div>
+        <div class="col-md-8 main-col">
+          <div class="content-card">
+            <h2>區段2 內容</h2>
+            <p>這是區段2的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+            <p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+          </div>
+        </div>
+        <div class="col-md-2 side-col"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 區段3 -->
+  <div class="white-line"></div>
+  <div class="section-banner banner-box" id="section3b">
+    <h2>區段3 Banner</h2>
+  </div>
+  <div class="content-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 side-col"></div>
+        <div class="col-md-8 main-col">
+          <div class="content-card">
+            <h2>區段3 內容</h2>
+            <p>這是區段3的內容。Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in libero nec dolor luctus bibendum.</p>
+            <p>Quisque vel quam nec massa dictum varius ac eu urna. Suspendisse ut tristique ex.</p>
+          </div>
+        </div>
+        <div class="col-md-2 side-col"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="white-line"></div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('a[href^="#"]').on('click', function (e) {
+        var hash = this.hash;
+        if (!hash || hash === '#') return;
+
+        var $target = $(hash);
+        if (!$target.length) return;
+
+        e.preventDefault();
+
+        // 扣除固定在頂端的導覽列高度，讓 Banner 不被遮住
+        var navHeight = $('.sticky-top').first().outerHeight() || 0;
+        var startY = window.pageYOffset;
+        var targetY = $target.offset().top - navHeight;
+        var duration = 800;
+        var startTime = null;
+
+        function step(timestamp) {
+          if (startTime === null) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          window.scrollTo(0, startY + (targetY - startY) * progress);
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            history.pushState(null, '', hash);
+          }
+        }
+        requestAnimationFrame(step);
+      });
+    });
+  </script>
+</body>
+</html>
