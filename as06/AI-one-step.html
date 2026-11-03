@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sticky 五頁示範</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+
+  /* 防跳頁核心：整頁 mandatory snap + 每個停點都 always 必停 */
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
+  body {
+    position: relative;               /* 讓 snap 標記用絕對定位對齊 */
+    font-family: system-ui, "PingFang TC", "Noto Sans TC", sans-serif;
+  }
+
+  /* ---------- 五個頁面 ---------- */
+  .page {
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    font-weight: 700;
+    position: relative;
+  }
+  .page small { display: block; font-size: .45em; font-weight: 400; opacity: .85; text-align: center; }
+
+  /* 第 2、4 頁黏在頂端，後面那頁會滑上來蓋住它 */
+  .page.sticky { position: sticky; top: 0; }
+
+  /* 疊層順序：後面的頁永遠蓋在前面的上面 */
+  .p1 { background: #e63946; z-index: 1; }
+  .p2 { background: #f4a261; z-index: 2; }
+  .p3 { background: #2a9d8f; z-index: 3; }
+  .p4 { background: #457b9d; z-index: 4; }
+  .p5 { background: #6a4c93; z-index: 5; }
+
+  /* ---------- 獨立的 snap 停點 ----------
+     不直接把 snap 掛在 sticky 元素上（sticky + snap 各瀏覽器算法不一致），
+     改用 5 個看不見的標記，固定在 0、100、200、300、400vh。 */
+  .snap-track {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 1px;
+    pointer-events: none;
+    visibility: hidden;
+  }
+  .snap-track > i {
+    display: block;
+    height: 100vh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;         /* 滑再大力也只能前進一格 */
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="snap-track" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+
+  <div class="page p1">第 1 頁<small>正常捲動</small></div>
+  <div class="page p2 sticky">第 2 頁<small>sticky top</small></div>
+  <div class="page p3">第 3 頁<small>正常捲動（蓋過第 2 頁）</small></div>
+  <div class="page p4 sticky">第 4 頁<small>sticky top</small></div>
+  <div class="page p5">第 5 頁<small>正常捲動（蓋過第 4 頁）</small></div>
+
+</body>
+</html>
